@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block temp %}
+  {{ super() }}
+		<section id="content" class="container">
+			<section class='col-md-3'>
+				<article class="page-header"><h2>Genre</h2></article>
+					{% for g in genre %}
+				     <section>
+							<a href="{{url_for('showGenre', genre_id=g.id)}}">{{ g.name }}</a>
+					</section>
+				{% endfor %}
+			</section>
+			<section class='col-md-9'>
+				<article class="page-header"><h2><small>Latest</small></h2></article>
+					{% for book in latest %}
+					<section class="media">
+  						<article class="media-left">
+   						 <a href="#">
+      						<img class="media-object" src="http://placehold.it/64x64" alt="book cover art">
+   						 </a>
+ 						</article>
+  					<article class="media-body">
+    					<h4 class="media-heading"><a href="{{url_for('showBook', genre_id=book.genre, book_id=book.id)}}">{{ book.title }}</a> by <small>{{ book.author }} -- ${{ book.price }}</small></h4>
+    					{{ book.description }}
+  						</article>
+					</section>
+				{% endfor %}				
+			</section>
+		</section>
+{% endblock %}

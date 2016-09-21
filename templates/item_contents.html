@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block temp %}
+  {{ super() }}
+		<section id="content" class="container">
+			<ol class="breadcrumb">
+  				<li><a href="{{url_for('catalog')}}">Home</a></li>
+  				<li><a href='{{url_for('showGenre', genre_id=type.id)}}'>{{type.name}}</a></li>
+  				<li class="active">{{book.title}}</li>
+			</ol>
+			<section class='col-md-3'>
+				<article class="page-header"><h2>Genre</h2></article>
+				{% for g in genre %}
+				     <section>
+							<a href="{{url_for('showGenre', genre_id=g.id)}}">{{ g.name }}</a>
+					</section>
+				{% endfor %}
+			</section>
+			<section class='col-md-9'>
+				<article class="page-header"><h2><small>Item Description</small></h2></article>
+				{% with messages = get_flashed_messages() %} 
+					{% if messages %}
+					<ul>
+						{% for message in messages %}
+							<li>{{ message }}</li>
+						{% endfor %}
+					</ul>
+					{% endif %}
+				{% endwith %}				
+				<h3>{{book.title}} <small>by {{book.author}}</small></h3>
+				<p>{{book.description}}</p>
+			</section>
+		</section>
+{% endblock %}

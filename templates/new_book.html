@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block temp %}
+  {{ super() }}
+		<section id="content" class="container">
+			<ol class="breadcrumb">
+  				<li><a href="{{url_for('catalog')}}">Home</a></li>
+  				<li><a href='{{url_for('showGenre', genre_id=genre.id)}}'>{{genre.name}}</a></li>
+  				<li class="active">Add Book</li>
+			</ol>
+			<section class='col-md-3'>
+				<article class="page-header"><h2>Genre</h2></article>
+				{% for g in genres %}
+				     <section>
+							<a href="{{url_for('showGenre', genre_id=g.id)}}">{{ g.name }}</a>
+					</section>
+				{% endfor %}
+			</section>
+			<section class='col-md-9'>
+				<article class="page-header"><h2>New {{genre.name}} Book</h2></article>
+				<p>Adding new book to {{genre.name}}?</p>
+				<form method='post'>
+					<label>Title:</label><br>
+					<input type='text' name='title' placeholder='Title' class='form-control'><br>
+					<label>Author:</label><br>
+					<input type='text' name='author' placeholder='Author' class='form-control'><br>
+					<label>Publisher:</label><br>
+					<input type='text' name='publisher' placeholder='Publisher' class='form-control'><br>
+					<label>Price:</label><br>
+					<input type='text' name='price' placeholder='Price' class='form-control'><br>
+					<label>Picture Link:</label><br>
+					<input type='text' name='picture' placeholder='Picture URL' class='form-control'><br>
+					<label>Description:</label><br>
+					<textarea name='description' placeholder='Description...' class='form-control' rows="8"></textarea><br>
+					<input type='submit' class="btn btn-default" value='Add Book'/>
+				</form>
+			</section>
+		</section>
+{% endblock %}

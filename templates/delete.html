@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block temp %}
+  {{ super() }}
+		<section id="content" class="container">
+			<ol class="breadcrumb">
+  				<li><a href="{{url_for('catalog')}}">Home</a></li>
+  				<li><a href='{{url_for('showGenre', genre_id=genre.id)}}'>{{genre.name}}</a></li>
+  				<li class="active">Delete {{name}}</li>
+			</ol>
+			<article class="page-header"><h2>Delete {{name}}</h2></article>
+			<p>Are you sure you want to delete {{name}}?</p>
+			<form method='post'>
+				<input type='submit' class="btn btn-default" value='Delete'/>
+			</form>
+		</section>
+{% endblock %}

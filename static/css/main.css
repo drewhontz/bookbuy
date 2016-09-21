@@ -1,0 +1,22 @@
+#content{
+	margin-top: 80px;
+}
+
+#login{
+	float: right;
+	margin-bottom: 10px;
+	margin-top: 20px;
+}
+
+.breadcrumb{
+	background-color: white;
+	margin-bottom: 0px;
+}
+
+.btn btn-default navbar-btn{
+	
+}
+
+.form-control{
+	max-width: 330px;
+}

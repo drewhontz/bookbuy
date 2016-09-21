@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block temp %}
+  {{ super() }}
+		<section id="content" class="container">
+
+			<section class='col-md-3'>
+				<article class="page-header"><h2>Genre</h2></article>
+				{% for g in genres %}
+				     <section>
+							<a href="{{url_for('showGenre', genre_id=g.id)}}">{{ g.name }}</a>
+					</section>
+				{% endfor %}
+			</section>
+			<section class='col-md-9'>
+				<article class="page-header"><h2>New {{genre}} Book</h2></article>
+				<p>Adding new book to {{genre}}?</p>
+				<form method='post'>
+					<label>Title:</label><br>
+					<input type='text' name='title' class='form-control' value='{{book.title}}'>
+					<label>Author:</label><br>
+					<input type='text' name='author' class='form-control' value='{{book.author}}'>
+					<label>Publisher:</label><br>
+					<input type='text' name='publisher' class='form-control' value='{{book.publisher}}'>
+					<label>Price:</label><br>
+					<input type='text' name='price' class='form-control' value='{{book.price}}'>
+					<br>
+					<label>Picture Link:</label><br>
+					<input type='text' name='picture' value='{{book.picture}}' class='form-control'><br>
+					<label>Description:</label><br>
+					<textarea name='description' class='form-control' rows="8">{{book.description}}</textarea><br>
+					<input type='submit' class="btn btn-default" value='Edit' />
+				</form>
+			</section>
+		</section>
+{% endblock %}
