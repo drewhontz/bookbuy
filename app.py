@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, url_for, jsonify, redirect, make_response
 from flask import flash, session as login_session
 from crud import *
-import random, string, json
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.client import FlowExchangeError
+import random, string, json, httplib2, requests
 
 app = Flask(__name__)
 
@@ -38,7 +40,7 @@ def gconnect():
 
     try:
         # Upgrade the authorization code into a credentials object
-        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+        oauth_flow = flow_from_clientsecrets('client_secret.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
