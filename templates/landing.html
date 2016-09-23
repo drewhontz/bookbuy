@@ -20,6 +20,15 @@
 			</section>
 			<section class='col-md-9'>
 				<article class="page-header"><h2><small>Latest</small></h2></article>
+					{% with messages = get_flashed_messages() %} 
+						{% if messages %}
+						<ul>
+							{% for message in messages %}
+								<li>{{ message }}</li>
+							{% endfor %}
+						</ul>
+						{% endif %}
+					{% endwith %}
 					{% for book in latest %}
 					<section class="media">
   						<article class="media-left">
