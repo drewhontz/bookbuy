@@ -17,12 +17,13 @@ def catalog():
     return render_template('landing.html', latest=latest, genre=genre)
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login')
 def login():
-    if request.method == 'POST':
-        return redirect('/')
-    else:
-        return render_template('login.html')
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits)
+                for x in xrange(32))
+    login_session['state'] = state
+    # return "The current session state is %s" % login_session['state']
+    return render_template('login.html', STATE=state)
 
 
 @app.route('/gconnect', methods=['POST'])
