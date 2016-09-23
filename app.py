@@ -10,9 +10,6 @@ import random, string, json, httplib2, requests
 
 app = Flask(__name__)
 
-CLIENT_SECRETS = json.loads(
-    open('client_secret.json', 'r').read())['web']['client_id']
-
 CLIENT_ID = json.loads(
     open('client_secret.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Book Buy Application"
