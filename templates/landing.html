@@ -2,6 +2,7 @@
 {% block temp %}
   {{ super() }}
 		<section id="content" class="container">
+
 			<section class='col-md-3'>
 				<article class="page-header"><h2>Genre</h2></article>
 					{% for g in genre %}
@@ -18,6 +19,7 @@
 					<a href="{{url_for('newGenre')}}">Add new Genre</a>
 				{% endif %} 
 			</section>
+
 			<section class='col-md-9'>
 				<article class="page-header"><h2><small>Latest</small></h2></article>
 					{% with messages = get_flashed_messages() %} 
@@ -43,5 +45,6 @@
 					</section>
 				{% endfor %}				
 			</section>
+			
 		</section>
 {% endblock %}
