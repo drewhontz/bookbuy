@@ -25,6 +25,10 @@
 					</ul>
 					{% endif %}
 				{% endwith %}
+				{% if is_logged_in() %}
+  					<a href="{{url_for('newBook', genre_id=id)}}">Add new item</a>
+  				{% endif %}
+
 				{% for book in books %}
 				    <section class="media">
   						<article class="media-left">
