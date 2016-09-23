@@ -15,10 +15,6 @@ APPLICATION_NAME = "Book Buy Application"
 def is_logged_in():
     return 'username' in login_session
 
-# def add_book_mods():
-#     HTMLedit = ""
-#     HTMLdelete =
-
 @app.route('/')
 def catalog():
     latest = show_latest()
