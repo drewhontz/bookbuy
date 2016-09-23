@@ -7,10 +7,13 @@ import random, string, json, httplib2, requests
 
 app = Flask(__name__)
 
+
 CLIENT_ID = json.loads(
     open('client_secret.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Book Buy Application"
 
+def is_logged_in():
+    return 'username' in login_session
 
 @app.route('/')
 def catalog():
@@ -128,7 +131,7 @@ def gdisconnect():
         result = h.request(url, 'GET')[0]
         print 'result is '
         print result
-        
+
         if result['status'] == '200':
             del login_session['access_token'] 
             del login_session['gplus_id']
@@ -261,5 +264,6 @@ def deleteBook(genre_id, book_id):
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
+    app.jinja_env.globals.update(is_logged_in=is_logged_in)
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
