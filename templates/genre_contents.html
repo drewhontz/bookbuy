@@ -26,7 +26,7 @@
 					{% endif %}
 				{% endwith %}
 				{% if is_logged_in() %}
-  					<a href="{{url_for('newBook', genre_id=id)}}">Add new item</a>
+  					<a href="{{url_for('newBook', genre_id=id)}}"> Add new item </a> <hr>
   				{% endif %}
 
 				{% for book in books %}

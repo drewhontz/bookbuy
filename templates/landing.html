@@ -7,9 +7,16 @@
 					{% for g in genre %}
 				     <section>
 							<a href="{{url_for('showGenre', genre_id=g.id)}}">{{ g.name }}</a>
-							{% if user %} Edit | Delete {% endif %}
+							{% if is_logged_in() %} 
+							    | <a href="{{url_for('editGenre', genre_id=g.id)}}">Edit</a> | 
+  							    <a href="{{url_for('deleteGenre', genre_id=g.id)}}">Delete</a>
+							{% endif %}
 					</section>
 				{% endfor %}
+				{% if is_logged_in() %}
+				<br><hr>
+					<a href="{{url_for('newGenre')}}">Add new Genre</a>
+				{% endif %} 
 			</section>
 			<section class='col-md-9'>
 				<article class="page-header"><h2><small>Latest</small></h2></article>
