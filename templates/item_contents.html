@@ -28,6 +28,13 @@
 				{% endwith %}				
 				<h3>{{book.title}} <small>by {{book.author}}</small></h3>
 				<p>{{book.description}}</p>
+				<section>
+				{% if is_logged_in() %}
+  						<br>
+  							<a href="{{url_for('editBook', genre_id=book.genre, book_id=book.id)}}">Edit</a> | 
+  							<a href="{{url_for('deleteBook', genre_id=book.genre, book_id=book.id)}}">Delete</a>
+  						{% endif %}
+  				</section>
 			</section>
 		</section>
 {% endblock %}

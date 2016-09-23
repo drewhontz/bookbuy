@@ -21,8 +21,11 @@
     				<h1>Book Buy</h1>
     			</section>
     			<section class='col-md-9'>
-					<button href="url_for('login')" type="button" id='login'
-					class="btn btn-default navbar-btn">Log in</button>
+    			{% if is_logged_in() %}
+					<a href="{{url_for('gdisconnect')}}" id='login'>Sign out</a>
+    			{% else %}
+					<a href="{{url_for('login')}}" id='login'>Log in</a>
+				{% endif %}
 			</section>
   			</div>
 		</nav>
