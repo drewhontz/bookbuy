@@ -18,7 +18,8 @@ def show_genres():
 	return session.query(Genre).all()
 
 def get_genre_by_id(gid):
-	return session.query(Genre).filter_by(id=gid).one()
+	res = session.query(Genre).filter_by(id=gid).first()
+	return res
 
 def show_latest():
 	return session.query(Book).limit(5)

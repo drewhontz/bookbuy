@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 CLIENT_ID = json.loads(
     open('client_secret.json', 'r').read())['web']['client_id']
-APPLICATION_NAME = "Restaurant Menu Application"
+APPLICATION_NAME = "Book Buy Application"
 
 
 @app.route('/')
@@ -154,7 +154,7 @@ def deleteGenre(genre_id):
         return render_template('delete.html', name=g.name, genre=g)
 
 
-@app.route('/<string:genre_id>')
+@app.route('/genre/<string:genre_id>')
 def showGenre(genre_id):
     b = show_books(genre_id)
     g = show_genres()
