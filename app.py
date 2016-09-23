@@ -15,6 +15,10 @@ APPLICATION_NAME = "Book Buy Application"
 def is_logged_in():
     return 'username' in login_session
 
+# def add_book_mods():
+#     HTMLedit = ""
+#     HTMLdelete =
+
 @app.route('/')
 def catalog():
     latest = show_latest()
@@ -161,8 +165,11 @@ def newGenre():
         flash("New genre added!")
         return redirect('/')
     else:
-        g = show_genres()
-        return render_template('new_genre.html', genre=g)
+        if is_logged_in():
+            g = show_genres()
+            return render_template('new_genre.html', genre=g)
+        else:
+            return redirect('/login')
 
 
 @app.route('/<string:genre_id>/edit', methods=['GET', 'POST'])
@@ -173,9 +180,12 @@ def editGenre(genre_id):
         flash("Genre editted!")
         return redirect(url_for('showGenre', genre_id=genre_id))
     else:
-        g = get_genre_by_id(genre_id)
-        genres = show_genres()
-        return render_template('edit_genre.html', ge=g, genres=genres)
+        if is_logged_in():
+            g = get_genre_by_id(genre_id)
+            genres = show_genres()
+            return render_template('edit_genre.html', ge=g, genres=genres)
+        else:
+            return redirect('/login')
 
 
 @app.route('/<string:genre_id>/delete', methods=['GET', 'POST'])
@@ -185,8 +195,11 @@ def deleteGenre(genre_id):
         flash("Genre removed")
         return redirect('/')
     else:
-        g = get_genre_by_id(genre_id)
-        return render_template('delete.html', name=g.name, genre=g)
+        if is_logged_in():
+            g = get_genre_by_id(genre_id)
+            return render_template('delete.html', name=g.name, genre=g)
+        else:
+            return redirect('/login')
 
 
 @app.route('/genre/<string:genre_id>')
@@ -212,9 +225,12 @@ def newBook(genre_id):
         flash("New book added")
         return redirect(url_for('showGenre', genre_id=genre_id))
     else:
-        g = get_genre_by_id(genre_id)
-        genre = show_genres()
-        return render_template('new_book.html', genre=g, genres=genre)
+        if is_logged_in():
+            g = get_genre_by_id(genre_id)
+            genre = show_genres()
+            return render_template('new_book.html', genre=g, genres=genre)
+        else:
+            return redirect('/login')
 
 
 @app.route('/<string:genre_id>/<string:book_id>')
@@ -242,11 +258,14 @@ def editBook(genre_id, book_id):
         return redirect(url_for('showBook', genre_id=genre_id,
                                 book_id=book_id))
     else:
-        b = get_book_by_id(book_id)
-        genre = get_genre_by_id(b.genre)
-        genres = show_genres()
-        return render_template('edit_book.html', genre=genre.name, book=b,
-                               genres=genres)
+        if is_logged_in():
+            b = get_book_by_id(book_id)
+            genre = get_genre_by_id(b.genre)
+            genres = show_genres()
+            return render_template('edit_book.html', genre=genre.name, book=b,
+                                   genres=genres)
+        else:
+            return redirect('/login')
 
 
 @app.route('/<string:genre_id>/<string:book_id>/delete',
@@ -257,9 +276,12 @@ def deleteBook(genre_id, book_id):
         flash("Book deleted")
         return redirect(url_for('showGenre', genre_id=genre_id))
     else:
-        b = get_book_by_id(book_id)
-        g = get_genre_by_id(genre_id)
-        return render_template('delete.html', name=b.title, genre=g)
+        if is_logged_in():
+            b = get_book_by_id(book_id)
+            g = get_genre_by_id(genre_id)
+            return render_template('delete.html', name=b.title, genre=g)
+        else:
+            return redirect('/login')
 
 
 if __name__ == '__main__':
