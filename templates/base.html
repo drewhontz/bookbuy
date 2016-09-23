@@ -15,6 +15,7 @@
 		<title>Book Buy</title>
 	</head>
 	<body>
+		<!-- Adds nav bar to all children html pages. Displays login/logout based on whether session has username param -->
 		<nav class="navbar navbar-default navbar-fixed-top">
   			<div class="container">
     			<section class='col-md-3'>
@@ -22,7 +23,7 @@
     			</section>
     			<section class='col-md-9'>
     			{% if is_logged_in() %}
-					<a href="{{url_for('gdisconnect')}}" id='login'>Sign out</a>
+					<a href="{{url_for('gdisconnect')}}" id='login'>Log out</a>
     			{% else %}
 					<a href="{{url_for('login')}}" id='login'>Log in</a>
 				{% endif %}

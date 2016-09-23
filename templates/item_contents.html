@@ -29,6 +29,7 @@
 				<h3>{{book.title}} <small>by {{book.author}}</small></h3>
 				<p>{{book.description}}</p>
 				<section>
+				<!-- Shows Edit/Delete links if user is logged in -->
 				{% if is_logged_in() %}
   						<br>
   							<a href="{{url_for('editBook', genre_id=book.genre, book_id=book.id)}}">Edit</a> | 

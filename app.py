@@ -14,7 +14,7 @@ CLIENT_ID = json.loads(
     open('client_secret.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Book Buy Application"
 
-
+# Convenience function for checking if user logged in
 def is_logged_in():
     return 'username' in login_session
 
@@ -28,10 +28,10 @@ def catalog():
 
 @app.route('/login')
 def login():
+    # State property used to protect against cross site forgery
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
                     for x in xrange(32))
     login_session['state'] = state
-    # return "The current session state is %s" % login_session['state']
     return render_template('login.html', STATE=state)
 
 
@@ -42,11 +42,13 @@ def gconnect():
         response = make_response(json.dumps('Invalid state parameter.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
-    # Obtain authorization code
+    # Obtain authorization code from ajax response on login.html
     code = request.data
 
     try:
-        # Upgrade the authorization code into a credentials object
+        # Boilerplate from Google Documentation/Class
+        # Upgrade the authorization code into a credentials object by creating
+        # Flow object from client_secret json file.
         oauth_flow = flow_from_clientsecrets('client_secret.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
@@ -96,7 +98,7 @@ def gconnect():
     login_session['access_token'] = credentials.access_token
     login_session['gplus_id'] = gplus_id
 
-    # Get user info
+    # Get user info, omitted the picture
     userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
     params = {'access_token': credentials.access_token, 'alt': 'json'}
     answer = requests.get(userinfo_url, params=params)
@@ -104,7 +106,6 @@ def gconnect():
     data = answer.json()
 
     login_session['username'] = data['name']
-    login_session['picture'] = data['picture']
     login_session['email'] = data['email']
 
     output = ''
@@ -130,10 +131,12 @@ def gdisconnect():
             return response
         url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
         h = httplib2.Http()
+        # Request to revoke the authorized token from google server
         result = h.request(url, 'GET')[0]
         print 'result is '
         print result
 
+        # If request is successful, remove all info from the session
         if result['status'] == '200':
             del login_session['access_token']
             del login_session['gplus_id']
