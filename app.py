@@ -1,10 +1,14 @@
-from flask import Flask, render_template, request, url_for, jsonify, redirect
+from flask import Flask, render_template, request, url_for, jsonify, redirect, json
 from flask import flash, session as login_session
+from oauth2client import client
+
 from crud import *
-import random, string
+import random, string, httplib2
 
 app = Flask(__name__)
 
+CLIENT_SECRETS = json.loads(
+    open('client_secret.json', 'r').read())['web']['client_id']
 
 @app.route('/')
 def catalog():
@@ -22,6 +26,76 @@ def login():
                         for x in xrange(32))
         login_session['state'] = state
         return render_template('login.html', state=login_session['state'])
+
+
+@app.route('/gconnect', methods=['GET', 'POST'])
+def auth():
+    flow = client.flow_from_clientsecrets(CLIENT_SECRETS, scope='',
+        redirect_uri='postmessage')
+    auth_code = request.data
+    
+    # redirect to the auth_uri
+    # you will receive an auth code in response if success
+
+    credentials = flow.step2_exchange(auth_code)
+    http_auth = credentials.authorize(httplib2.Http())
+
+     # Store the access token in the session for later use.
+    login_session['access_token'] = credentials.access_token
+    login_session['gplus_id'] = gplus_id
+
+    # Get user info
+    userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
+    params = {'access_token': credentials.access_token, 'alt': 'json'}
+    answer = requests.get(userinfo_url, params=params)
+
+    data = answer.json()
+
+    login_session['username'] = data['name']
+    login_session['picture'] = data['picture']
+    login_session['email'] = data['email']
+
+    output = ''
+    output += '<h1>Welcome, '
+    output += login_session['username']
+    output += '!</h1>'
+    output += '<img src="'
+    output += login_session['picture']
+    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    flash("you are now logged in as %s" % login_session['username'])
+    print "done!"
+    return output
+
+@app.route('/gdisconnect')
+def gdisconnect():
+    access_token = login_session['access_token']
+    print 'In gdisconnect access token is %s', access_token
+    print 'User name is: ' 
+    print login_session['username']
+    if access_token is None:
+        print 'Access Token is None'
+        response = make_response(json.dumps('Current user not connected.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
+    h = httplib2.Http()
+    result = h.request(url, 'GET')[0]
+    print 'result is '
+    print result
+    if result['status'] == '200':
+        del login_session['access_token'] 
+        del login_session['gplus_id']
+        del login_session['username']
+        del login_session['email']
+        del login_session['picture']
+        response = make_response(json.dumps('Successfully disconnected.'), 200)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    else:
+    
+        response = make_response(json.dumps('Failed to revoke token for given user.', 400))
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
 
 @app.route('/JSON')

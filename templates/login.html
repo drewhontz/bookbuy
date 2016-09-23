@@ -10,7 +10,40 @@
 			<article class="page-header"><h2>Log in</h2></article>
 			<p>State: {{state}} </p>
 			<p>Welcome, please sign in below: </p>
-			<div class="g-signin2" data-onsuccess="onSignIn"></div>
+			<div id='g' class="g-signin2">
+			</div>
+			<script>
+				$('#g').click(function() {
+					auth2.grantOfflineAccess({'redirect_uri': 'postmessage'}).then(signInCallback);
+				});
+
+				function signInCallback(authResult) {
+					if (authResult['code']) {
+					    // Hide the sign-in button now that the user is authorized, for example:
+					    $('#signinButton').attr('style', 'display: none');
+
+					    // Send the code to the server
+					    $.ajax({
+					      type: 'POST',
+					      url: 'http://example.com/storeauthcode',
+					      contentType: 'application/octet-stream; charset=utf-8',
+					      success: function(result) {
+					        // Handle or verify the server response.
+					        if (result) {
+					        	$('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
+						         setTimeout(function() {
+						          window.location.href = "/restaurant";
+						         }, 4000);
+					      },
+					      processData: false,
+					      data: authResult['code']
+					    });
+					  } else {
+					    // There was an error.
+					    console.log('There was an error: ' + authResult['error']);
+					}
+				}
+			</script>
 		</section>
   </body>
 </html>
