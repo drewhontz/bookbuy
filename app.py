@@ -184,6 +184,7 @@ def newGenre():
 
 
 @app.route('/<string:genre_id>/edit', methods=['GET', 'POST'])
+@login_required
 def editGenre(genre_id):
     if request.method == 'POST':
         edit = request.form['name']
@@ -191,26 +192,22 @@ def editGenre(genre_id):
         flash("Genre editted!")
         return redirect(url_for('showGenre', genre_id=genre_id))
     else:
-        if is_logged_in():
-            g = get_genre_by_id(genre_id)
-            genres = show_genres()
-            return render_template('edit_genre.html', ge=g, genres=genres)
-        else:
-            return redirect('/login')
+        g = get_genre_by_id(genre_id)
+        genres = show_genres()
+        return render_template('edit_genre.html', ge=g, genres=genres)
+
 
 
 @app.route('/<string:genre_id>/delete', methods=['GET', 'POST'])
+@login_required
 def deleteGenre(genre_id):
     if request.method == 'POST':
         delete_genre(genre_id)
         flash("Genre removed")
         return redirect('/')
     else:
-        if is_logged_in():
-            g = get_genre_by_id(genre_id)
-            return render_template('delete.html', name=g.name, genre=g)
-        else:
-            return redirect('/login')
+        g = get_genre_by_id(genre_id)
+        return render_template('delete.html', name=g.name, genre=g)
 
 
 @app.route('/genre/<string:genre_id>')
@@ -223,6 +220,7 @@ def showGenre(genre_id):
 
 
 @app.route('/<string:genre_id>/new', methods=['GET', 'POST'])
+@login_required
 def newBook(genre_id):
     if request.method == 'POST':
         title = request.form['title']
@@ -236,12 +234,9 @@ def newBook(genre_id):
         flash("New book added")
         return redirect(url_for('showGenre', genre_id=genre_id))
     else:
-        if is_logged_in():
-            g = get_genre_by_id(genre_id)
-            genre = show_genres()
-            return render_template('new_book.html', genre=g, genres=genre)
-        else:
-            return redirect('/login')
+        g = get_genre_by_id(genre_id)
+        genre = show_genres()
+        return render_template('new_book.html', genre=g, genres=genre)
 
 
 @app.route('/<string:genre_id>/<string:book_id>')
@@ -254,6 +249,7 @@ def showBook(genre_id, book_id):
 
 @app.route('/<string:genre_id>/<string:book_id>/edit',
            methods=['GET', 'POST'])
+@login_required
 def editBook(genre_id, book_id):
     if request.method == 'POST':
         title = request.form['title']
@@ -269,30 +265,26 @@ def editBook(genre_id, book_id):
         return redirect(url_for('showBook', genre_id=genre_id,
                                 book_id=book_id))
     else:
-        if is_logged_in():
-            b = get_book_by_id(book_id)
-            genre = get_genre_by_id(b.genre)
-            genres = show_genres()
-            return render_template('edit_book.html', genre=genre.name, book=b,
+        b = get_book_by_id(book_id)
+        genre = get_genre_by_id(b.genre)
+        genres = show_genres()
+        return render_template('edit_book.html', genre=genre.name, book=b,
                                    genres=genres)
-        else:
-            return redirect('/login')
+
 
 
 @app.route('/<string:genre_id>/<string:book_id>/delete',
            methods=['GET', 'POST'])
+@login_required
 def deleteBook(genre_id, book_id):
     if request.method == 'POST':
         delete_book(book_id)
         flash("Book deleted")
         return redirect(url_for('showGenre', genre_id=genre_id))
     else:
-        if is_logged_in():
-            b = get_book_by_id(book_id)
-            g = get_genre_by_id(genre_id)
-            return render_template('delete.html', name=b.title, genre=g)
-        else:
-            return redirect('/login')
+        b = get_book_by_id(book_id)
+        g = get_genre_by_id(genre_id)
+        return render_template('delete.html', name=b.title, genre=g)
 
 
 if __name__ == '__main__':
