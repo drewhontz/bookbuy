@@ -11,7 +11,9 @@ Book Buy is a sample item catalog for the Udacity Full Stack course's Item Catal
     - [ ] Flask
 
 3. When you are ready to run, open your shell of choice, navigate to the directory in which you cloned bookbuy
-and run `python app.py`
+and run the following commands
+	1. `python db_config.py`
+	2. `python app.py`
 
 4. Next, open your browser and go to the following address:
 `http://localhost:5000/`
