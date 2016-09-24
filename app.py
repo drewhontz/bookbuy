@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, url_for, jsonify, redirect
 from flask import flash, session as login_session, make_response
 from oauth2client import client
-
+from functools import wraps
 from crud import *
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
@@ -18,6 +18,13 @@ APPLICATION_NAME = "Book Buy Application"
 def is_logged_in():
     return 'username' in login_session
 
+def login_required(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in login_session:
+            return redirect('/login')
+        return func(*args, **kwargs)
+    return decorated_function
 
 @app.route('/')
 def catalog():
@@ -164,6 +171,7 @@ def JSONitem(genre_id, book_id):
 
 
 @app.route('/new', methods=['GET', 'POST'])
+@login_required
 def newGenre():
     if request.method == 'POST':
         name = request.form['name']
@@ -171,11 +179,8 @@ def newGenre():
         flash("New genre added!")
         return redirect('/')
     else:
-        if is_logged_in():
-            g = show_genres()
-            return render_template('new_genre.html', genre=g)
-        else:
-            return redirect('/login')
+        g = show_genres()
+        return render_template('new_genre.html', genre=g)
 
 
 @app.route('/<string:genre_id>/edit', methods=['GET', 'POST'])
