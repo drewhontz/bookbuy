@@ -157,6 +157,12 @@ def JSONcatalog():
     return jsonify(BookList=[b.serialize for b in books])
 
 
+@app.route('/<string:genre_id>/<string:book_id>/JSON')
+def JSONitem(genre_id, book_id):
+    book = get_book_by_id(book_id)
+    return jsonify(Book=book.serialize)
+
+
 @app.route('/new', methods=['GET', 'POST'])
 def newGenre():
     if request.method == 'POST':
