@@ -15,7 +15,7 @@ import requests
 app = Flask(__name__)
 
 CLIENT_ID = json.loads(
-    open('./client_secret.json', 'r').read())['web']['client_id']
+    open('/var/www/BookBuy/BookBuy/client_secret.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Book Buy Application"
 
 # Convenience function for checking if user logged in
