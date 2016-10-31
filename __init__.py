@@ -5,18 +5,25 @@ from functools import wraps
 from crud import *
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
-import random, string, json, httplib2, requests
+import random
+import string
+import json
+import httplib2
+import requests
 
 
 app = Flask(__name__)
 
 CLIENT_ID = json.loads(
-    open('client_secret.json', 'r').read())['web']['client_id']
+    open('./client_secret.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Book Buy Application"
 
 # Convenience function for checking if user logged in
+
+
 def is_logged_in():
     return 'username' in login_session
+
 
 def login_required(func):
     @wraps(func)
@@ -25,6 +32,7 @@ def login_required(func):
             return redirect('/login')
         return func(*args, **kwargs)
     return decorated_function
+
 
 @app.route('/')
 def catalog():
@@ -126,36 +134,37 @@ def gconnect():
 
 @app.route('/gdisconnect')
 def gdisconnect():
-        access_token = login_session['access_token']
-        print 'In gdisconnect access token is %s', access_token
-        print 'User name is: '
-        print login_session['username']
-        if access_token is None:
-            print 'Access Token is None'
-            response = make_response(
-                json.dumps('Current user not connected.'), 401)
-            response.headers['Content-Type'] = 'application/json'
-            return response
-        url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
-        h = httplib2.Http()
-        # Request to revoke the authorized token from google server
-        result = h.request(url, 'GET')[0]
-        print 'result is '
-        print result
+    access_token = login_session['access_token']
+    print 'In gdisconnect access token is %s', access_token
+    print 'User name is: '
+    print login_session['username']
+    if access_token is None:
+        print 'Access Token is None'
+        response = make_response(
+            json.dumps('Current user not connected.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session[
+        'access_token']
+    h = httplib2.Http()
+    # Request to revoke the authorized token from google server
+    result = h.request(url, 'GET')[0]
+    print 'result is '
+    print result
 
-        # If request is successful, remove all info from the session
-        if result['status'] == '200':
-            del login_session['access_token']
-            del login_session['gplus_id']
-            del login_session['username']
-            del login_session['email']
-            flash("Successfully logged out")
-            return redirect('/')
-        else:
-            response = make_response(
-                json.dumps('Failed to revoke token for given user.', 400))
-            response.headers['Content-Type'] = 'application/json'
-            return response
+    # If request is successful, remove all info from the session
+    if result['status'] == '200':
+        del login_session['access_token']
+        del login_session['gplus_id']
+        del login_session['username']
+        del login_session['email']
+        flash("Successfully logged out")
+        return redirect('/')
+    else:
+        response = make_response(
+            json.dumps('Failed to revoke token for given user.', 400))
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
 
 @app.route('/JSON')
@@ -195,7 +204,6 @@ def editGenre(genre_id):
         g = get_genre_by_id(genre_id)
         genres = show_genres()
         return render_template('edit_genre.html', ge=g, genres=genres)
-
 
 
 @app.route('/<string:genre_id>/delete', methods=['GET', 'POST'])
@@ -269,8 +277,7 @@ def editBook(genre_id, book_id):
         genre = get_genre_by_id(b.genre)
         genres = show_genres()
         return render_template('edit_book.html', genre=genre.name, book=b,
-                                   genres=genres)
-
+                               genres=genres)
 
 
 @app.route('/<string:genre_id>/<string:book_id>/delete',
