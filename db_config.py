@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Decimal, Text, create_engine, ForeignKey
+from sqlalchemy import Column, String, Integer, Float, Text, create_engine, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 import datetime
 
@@ -27,7 +27,7 @@ class Book(Base):
     author = Column(String(30), nullable=False)
     publisher = Column(String(25))
     genre = Column(Integer, ForeignKey(Genre.id))
-    price = Column(Decimal, nullable=False)
+    price = Column(Float, nullable=False)
     description = Column(Text, nullable=False)
     picture = Column(String, nullable=False)
     # created = Column(String, default=datetime.datetime.utcnow)
