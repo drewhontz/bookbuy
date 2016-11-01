@@ -30,6 +30,10 @@ Book Buy is a sample item catalog for the Udacity Full Stack course's Item Catal
     - Flask
     - Python 2.7
 
+### Third-Party Resources used
+
+- I was able to complete this assignment by reading articles on askubuntu, digital ocean, and by leveraging the Udacity community forums
+
 ## Known issues
 
 - Logout does not work if you do not clear cache. Click [here](https://discussions.udacity.com/t/cannot-disconnect-gdisconnect-route/16263/14>
