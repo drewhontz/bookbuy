@@ -1,33 +1,34 @@
 {% block temp %}
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<link href="/static/css/bootstrap.min.css" rel="stylesheet">
 		<link href="/static/css/main.css" rel="stylesheet">
 		<meta name="google-signin-client_id" content="1096243348127-tag2guotgjhdss89ib0lep09epp6qp98.apps.googleusercontent.com">
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		<script type="text/javascript">
-			gapi.load('auth2', function(){
+			gapi.load('auth2', function() {
 				gapi.auth2.init();
-				client_id: '1096243348127-tag2guotgjhdss89ib0lep09epp6qp98.apps.googleusercontent.com'
+				client_id:
+					'1096243348127-tag2guotgjhdss89ib0lep09epp6qp98.apps.googleusercontent.com'
 			})
 		</script>
 		<title>Book Buy</title>
 	</head>
+
 	<body>
 		<!-- Adds nav bar to all children html pages. Displays login/logout based on whether session has username param -->
 		<nav class="navbar navbar-default navbar-fixed-top">
-  			<div class="container">
-    			<section class='col-md-3'>
-    				<h1>Book Buy</h1>
-    			</section>
-    			<section class='col-md-9'>
-    			{% if is_logged_in() %}
-					<a href="{{url_for('gdisconnect')}}" id='login'>Log out</a>
-    			{% else %}
-					<a href="{{url_for('login')}}" id='login'>Log in</a>
-				{% endif %}
-			</section>
-  			</div>
+			<div class="container">
+				<section class='col-md-3'>
+					<h1>Book Buy</h1>
+				</section>
+				<section class='col-md-9'>
+					{% if {{is_logged_in()}} %}
+					<a href="{{url_for('gdisconnect')}}" id='login'>Log out</a> {% else %}
+					<a href="{{url_for('login')}}" id='login'>Log in</a> {% endif %}
+				</section>
+			</div>
 		</nav>
-{% endblock %}
+		{% endblock %}
