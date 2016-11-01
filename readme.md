@@ -36,8 +36,4 @@ Book Buy is a sample item catalog for the Udacity Full Stack course's Item Catal
 
 ## Known issues
 
-- Logout does not work if you do not clear cache. Click [here](https://discussions.udacity.com/t/cannot-disconnect-gdisconnect-route/16263/14>
-  /14>
-  /14) for more detail:
-
-  /14) for more detail:
+- Logout does not work if you do not clear cache. Click [here](https://discussions.udacity.com/t/cannot-disconnect-gdisconnect-route/16263/14) for more detail (must have Udacity account)
