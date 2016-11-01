@@ -25,7 +25,7 @@
 			<li>{{ message }}</li>
 			{% endfor %}
 		</ul>
-		{% endif %} {% endwith %} {% if 'username' in login_session %}
+		{% endif %} {% endwith %} {% if 'username' in session %}
 		<a href="{{url_for('newBook', genre_id=id)}}"> Add new item </a>
 		<hr> {% endif %} {% for book in books %}
 		<section class="media">
