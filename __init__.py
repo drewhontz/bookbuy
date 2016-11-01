@@ -64,7 +64,8 @@ def gconnect():
         # Boilerplate from Google Documentation/Class
         # Upgrade the authorization code into a credentials object by creating
         # Flow object from client_secret json file.
-        oauth_flow = flow_from_clientsecrets('client_secret.json', scope='')
+        oauth_flow = flow_from_clientsecrets(
+            '/var/www/BookBuy/BookBuy/client_secret.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
