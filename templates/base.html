@@ -27,7 +27,7 @@
 				<section class='col-md-9'>
 					{% if session.logged_in %}
 					<a href="{{url_for('gdisconnect')}}" id='login'>Log out</a> {% else %}
-					<a href="{{url_for('login')}}" id='login'>Log in</a> {% endif %}
+					<a href="{{url_for('login')}}" id='login'> {{login_session.username}}Log in</a>					{% endif %}
 				</section>
 			</div>
 		</nav>
