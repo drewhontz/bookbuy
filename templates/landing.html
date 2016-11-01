@@ -1,51 +1,44 @@
-{% extends 'base.html' %}
-{% block temp %}
-  {{ super() }}
-		<section id="content" class="container">
+{% extends 'base.html' %} {% block temp %} {{ super() }}
+<section id="content" class="container">
 
-			<section class='col-md-3'>
-				<article class="page-header"><h2>Genre</h2></article>
-					{% for g in genre %}
-				     <section>
-							<a href="{{url_for('showGenre', genre_id=g.id)}}">{{ g.name }}</a>
-							<!-- Shows Edit/Delete links if user is logged in -->
-							{% if is_logged_in() %} 
-							    | <a href="{{url_for('editGenre', genre_id=g.id)}}">Edit</a> | 
-  							    <a href="{{url_for('deleteGenre', genre_id=g.id)}}">Delete</a>
-							{% endif %}
-					</section>
-				{% endfor %}
-				{% if is_logged_in() %}
-				<br><hr>
-					<a href="{{url_for('newGenre')}}">Add new Genre</a>
-				{% endif %} 
-			</section>
+  <section class='col-md-3'>
+    <article class="page-header">
+      <h2>Genre</h2></article>
+    {% for g in genre %}
+    <section>
+      <a href="{{url_for('showGenre', genre_id=g.id)}}">{{ g.name }}</a>
+      <!-- Shows Edit/Delete links if user is logged in -->
+      {% if is_logged_in() %} | <a href="{{url_for('editGenre', genre_id=g.id)}}">Edit</a>      |
+      <a href="{{url_for('deleteGenre', genre_id=g.id)}}">Delete</a> {% endif %}
+    </section>
+    {% endfor %} {% if 'username' in login_session %}
+    <br>
+    <hr>
+    <a href="{{url_for('newGenre')}}">Add new Genre</a> {% endif %}
+  </section>
 
-			<section class='col-md-9'>
-				<article class="page-header"><h2><small>Latest</small></h2></article>
-					{% with messages = get_flashed_messages() %} 
-						{% if messages %}
-						<ul>
-							{% for message in messages %}
-								<li>{{ message }}</li>
-							{% endfor %}
-						</ul>
-						{% endif %}
-					{% endwith %}
-					{% for book in latest %}
-					<section class="media">
-  						<article class="media-left">
-   						 <a href="#">
-      						<img class="media-object" src="http://placehold.it/64x64" alt="book cover art">
-   						 </a>
- 						</article>
-  					<article class="media-body">
-    					<h4 class="media-heading"><a href="{{url_for('showBook', genre_id=book.genre, book_id=book.id)}}">{{ book.title }}</a> by <small>{{ book.author }} -- ${{ book.price }}</small></h4>
-    					{{ book.description }}
-  						</article>
-					</section>
-				{% endfor %}				
-			</section>
-			
-		</section>
+  <section class='col-md-9'>
+    <article class="page-header">
+      <h2><small>Latest</small></h2></article>
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% endwith %} {% for book in latest %}
+    <section class="media">
+      <article class="media-left">
+        <a href="#">
+          <img class="media-object" src="http://placehold.it/64x64" alt="book cover art">
+        </a>
+      </article>
+      <article class="media-body">
+        <h4 class="media-heading"><a href="{{url_for('showBook', genre_id=book.genre, book_id=book.id)}}">{{ book.title }}</a> by <small>{{ book.author }} -- ${{ book.price }}</small></h4> {{ book.description }}
+      </article>
+    </section>
+    {% endfor %}
+  </section>
+
+</section>
 {% endblock %}
