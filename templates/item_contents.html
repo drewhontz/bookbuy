@@ -2,7 +2,7 @@
 <section id="content" class="container">
   <ol class="breadcrumb">
     <li><a href="{{url_for('catalog')}}">Home</a></li>
-    <li><a href='{{url_for(' showGenre ', genre_id=type.id)}}'>{{type.name}}</a></li>
+    <li><a href="{{url_for('showGenre', genre_id=type.id)}}">{{type.name}}</a></li>
     <li class="active">{{book.title}}</li>
   </ol>
   <section class='col-md-3'>
