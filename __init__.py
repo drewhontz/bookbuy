@@ -248,7 +248,7 @@ def newBook(genre_id):
         return render_template('new_book.html', genre=g, genres=genre)
 
 
-@app.route('book/<string:genre_id>/<string:book_id>')
+@app.route('/book/<string:genre_id>/<string:book_id>')
 def showBook(genre_id, book_id):
     b = get_book_by_id(book_id)
     g = show_genres()
