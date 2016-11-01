@@ -11,7 +11,7 @@
       {% if 'username' in session %} | <a href="{{url_for('editGenre', genre_id=g.id)}}">Edit</a>      |
       <a href="{{url_for('deleteGenre', genre_id=g.id)}}">Delete</a> {% endif %}
     </section>
-    {% endfor %} {% if 'username' in login_session %}
+    {% endfor %} {% if 'username' in session %}
     <br>
     <hr>
     <a href="{{url_for('newGenre')}}">Add new Genre</a> {% endif %}
