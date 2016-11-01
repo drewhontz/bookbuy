@@ -219,7 +219,7 @@ def deleteGenre(genre_id):
         return render_template('delete.html', name=g.name, genre=g)
 
 
-@app.route('/genre/<string:genre_id>')
+@app.route('/<string:genre_id>/genre')
 def showGenre(genre_id):
     b = show_books(genre_id)
     g = show_genres()
