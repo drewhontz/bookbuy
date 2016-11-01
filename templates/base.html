@@ -25,7 +25,7 @@
 					<h1>Book Buy</h1>
 				</section>
 				<section class='col-md-9'>
-					{% if is_logged_in() %}
+					{% if 'username' in login_session %}
 					<a href="{{url_for('gdisconnect')}}" id='login'>Log out</a> {% else %}
 					<a href="{{url_for('login')}}" id='login'>Log in</a> {% endif %}
 				</section>
